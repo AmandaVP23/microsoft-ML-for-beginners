@@ -1,2 +1,5 @@
 venv3
 .venv
+.vscode
+.DS_Store
+.DS_Store?
