@@ -4,3 +4,5 @@ venv3
 .DS_Store
 .DS_Store?
 6-NLP/Hotel_Reviews.csv
+6-NLP/Hotel_Reviews_Filtered.csv
+6-NLP/Hotel_Reviews_NLP.csv
