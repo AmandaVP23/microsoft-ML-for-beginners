@@ -83,7 +83,9 @@ def probs(v, eps=1e-4):
 Qmax = 0
 cum_rewards = []
 rewards = []
-for epoch in range(100000):
+train_range = 100 # 100000
+for epoch in range(train_range):
+    print(f"Epoch: {epoch}")
     reset_out = env.reset()
     if isinstance(reset_out, tuple):
         obs = reset_out[0]
@@ -119,3 +121,29 @@ for epoch in range(100000):
             Qmax = np.average(cum_rewards)
             Qbest = Q
         cum_rewards=[]
+
+plt.plot(rewards)
+
+def running_average(x,window):
+    return np.convolve(x,np.ones(window)/window,mode='valid')
+
+#plt.plot(running_average(rewards,100))
+plt.plot(running_average(rewards,10))
+plt.show()
+
+reset_out = env.reset()
+if isinstance(reset_out, tuple):
+    obs = reset_out[0]
+else:
+    obs = reset_out
+
+done = False
+while not done:
+    s = discretize_bins(obs)
+    env.render()
+    v = probs(np.array(qvalues(s)))
+    a = random.choices(actions, weights=v)[0]
+    obs, rew, terminated, truncated, info = env.step(a)
+    done = terminated or truncated
+
+env.close()
